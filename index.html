@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Enkripsi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="p-8">
+    <h1 class="text-2xl font-bold mb-4">Welkom to program enksripsi</h1>
+
+    <p class="mb-2">Masukkan plaintext:</p>
+    <input id="inputText" type="text" placeholder="masukan nilai, cth: barto orang"
+        class="bg-white border p-2 rounded mr-2 w-64" value="Barto orang">
+
+    <button id="btnEnkripsi" class="border p-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+        type="submit">Enkripsi</button>
+
+    <div class="mt-4">
+        <a href="blocking.html" class="text-blue-500 hover:text-blue-700">Lihat Detail Enkripsi Blocking →</a>
+    </div>
+
+    <h2 class="text-xl font-semibold mt-6 mb-3">Hasil dari Enkripsi</h2>
+    <div id="output" class="mt-4 p-4 border rounded bg-gray-50">
+        <p>Hasil akan ditampilkan di sini setelah Anda menekan tombol "Enkripsi".</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enkripsi Blocking (Transposisi Matriks)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Enkripsi Blocking (Transposisi Matriks)</h1>
+
+        <div class="input-group">
+            <label for="plaintext">Masukkan Plaintext:</label>
+            <input type="text" id="plaintext" placeholder="Contoh: Barto orang" value="Barto orang">
+            <button onclick="processText()">Enkripsi</button>
+            <button onclick="resetForm()">Reset</button>
+        </div>
+
+        <div class="mt-4">
+            <a href="index.html" class="text-blue-500 hover:text-blue-700">← Kembali ke Halaman Utama</a>
+        </div>
+
+        <div class="result-section">
+            <div class="step">
+                <div class="step-title">1. Preprocessing</div>
+                <div id="preprocessing"></div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">2. Matriks Pengisian Vertikal</div>
+                <div id="matrix-container"></div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">3. Pola Pembacaan Kustom</div>
+                <div id="reading-steps" class="reading-steps"></div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">4. Hasil Enkripsi</div>
+                <div id="output" class="output"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
