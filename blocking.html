@@ -4,44 +4,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enkripsi Blocking (Transposisi Matriks)</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Enkripsi Blocking - Detail Visualisasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container">
-        <h1>Enkripsi Blocking (Transposisi Matriks)</h1>
-
-        <div class="input-group">
-            <label for="plaintext">Masukkan Plaintext:</label>
-            <input type="text" id="plaintext" placeholder="Contoh: Barto orang" value="Barto orang">
-            <button onclick="processText()">Enkripsi</button>
-            <button onclick="resetForm()">Reset</button>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-table-cells-large text-4xl text-blue-600 mr-4"></i>
+                <h1 class="text-4xl font-bold text-gray-800">Enkripsi Blocking</h1>
+            </div>
+            <p class="text-lg text-gray-600">Visualisasi detail proses transposisi matriks</p>
         </div>
 
-        <div class="mt-4">
-            <a href="index.html" class="text-blue-500 hover:text-blue-700">← Kembali ke Halaman Utama</a>
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="index.html"
+                class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 font-semibold">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Kembali ke Halaman Utama
+            </a>
         </div>
 
-        <div class="result-section">
-            <div class="step">
-                <div class="step-title">1. Preprocessing</div>
-                <div id="preprocessing"></div>
+        <!-- Input Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-edit text-blue-500 text-xl mr-3"></i>
+                <h2 class="text-xl font-semibold text-gray-800">Input Teks</h2>
             </div>
 
-            <div class="step">
-                <div class="step-title">2. Matriks Pengisian Vertikal</div>
-                <div id="matrix-container"></div>
+            <div class="flex flex-col md:flex-row gap-4 items-start md:items-end">
+                <div class="flex-1">
+                    <input id="plaintext" type="text" placeholder="Contoh: Barto orang" value="Barto orang"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="processText()"
+                        class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-md flex items-center">
+                        <i class="fas fa-play mr-2"></i>
+                        Proses
+                    </button>
+                    <button onclick="resetForm()"
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-md flex items-center">
+                        <i class="fas fa-rotate mr-2"></i>
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="space-y-6">
+            <!-- Step 1: Preprocessing -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3 font-bold">
+                        1</div>
+                    <h2 class="text-xl font-semibold text-gray-800">Preprocessing</h2>
+                </div>
+                <div id="preprocessing" class="text-gray-700"></div>
             </div>
 
-            <div class="step">
-                <div class="step-title">3. Pola Pembacaan Kustom</div>
-                <div id="reading-steps" class="reading-steps"></div>
+            <!-- Step 2: Matrix -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mr-3 font-bold">
+                        2</div>
+                    <h2 class="text-xl font-semibold text-gray-800">Matriks Pengisian Vertikal</h2>
+                </div>
+                <div id="matrix-container" class="text-gray-700"></div>
             </div>
 
-            <div class="step">
-                <div class="step-title">4. Hasil Enkripsi</div>
-                <div id="output" class="output"></div>
+            <!-- Step 3: Reading Pattern -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center mr-3 font-bold">
+                        3</div>
+                    <h2 class="text-xl font-semibold text-gray-800">Pola Pembacaan Kustom</h2>
+                </div>
+                <div id="reading-steps"
+                    class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg text-gray-700"></div>
+            </div>
+
+            <!-- Step 4: Final Result -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mr-3 font-bold">
+                        4</div>
+                    <h2 class="text-xl font-semibold text-gray-800">Hasil Enkripsi</h2>
+                </div>
+                <div id="output"
+                    class="bg-gradient-to-r from-purple-50 to-blue-50 border-l-4 border-purple-500 p-6 rounded-r-lg">
+                    <div class="text-center text-gray-500">
+                        <i class="fas fa-lock text-3xl mb-3 opacity-50"></i>
+                        <p>Hasil enkripsi akan muncul di sini</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
