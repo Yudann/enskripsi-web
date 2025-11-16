@@ -16,29 +16,22 @@ function ekspansi(text) {
 
     return hasil.join(" ");
 }
-
 function permutasi(text) {
     const processedText = text.toLowerCase().replace(/\s/g, '_');
     const chars = processedText.split("");
     
-    if (chars.length < 5) return processedText;
-
-    const pola = [1, 0, 2, 4, 3];
+    const pola = [1, 0, 2, 4, 3]; 
     let result = "";
 
-    for (let i = 0; i < 5; i++) {
-        result += chars[pola[i]];
-    }
-
-    if (chars.length > 5) {
-        const sisaChars = chars.slice(5);
+    for (let i = 0; i < chars.length; i += 5) {
+        const block = chars.slice(i, i + 5);
         
-        if (sisaChars.length >= 6) {
-            const modified = [...sisaChars];
-            [modified[3], modified[4]] = [modified[4], modified[3]];
-            result += modified.join("");
+        if (block.length === 5) {
+            for (let j = 0; j < 5; j++) {
+                result += block[pola[j]];
+            }
         } else {
-            result += sisaChars.join("");
+            result += block.join("");
         }
     }
 
@@ -88,7 +81,6 @@ function blocking(text) {
     // Baca per BARIS dan gabung dengan underscore
     let encrypted = '';
     for (let row = 0; row < numRows; row++) {
-        // Ambil karakter non-underscore atau sampai ada karakter terakhir
         let rowStr = '';
         for (let col = 0; col < blockSize; col++) {
             rowStr += matrix[row][col];
@@ -108,10 +100,6 @@ function blocking(text) {
     
     return encrypted.toUpperCase();
 }
-
-// Test
-console.log(blocking("Barto orang")); 
-console.log(blocking("adin cantik"));
 
 function substitusi(text) {
     return text.split('').map(char => {
@@ -209,120 +197,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-function visualizeMatrix(matrix, numRows, blockSize) {
-    let html = `
-        <div class="mb-4">
-            <p class="text-sm text-gray-600 mb-2">Matriks ${numRows}×${blockSize} (diisi vertikal):</p>
-        </div>
-    `;
-    
-    html += '<div class="overflow-x-auto">';
-    html += '<table class="min-w-full border border-gray-300 rounded-lg overflow-hidden">';
-    
-    // Header kolom
-    html += '<thead class="bg-gray-100">';
-    html += '<tr><th class="px-4 py-3 border border-gray-300 font-semibold text-gray-700"></th>';
-    for (let col = 0; col < blockSize; col++) {
-        html += `<th class="px-4 py-3 border border-gray-300 font-semibold text-gray-700">Kol ${col + 1}</th>`;
-    }
-    html += '</tr></thead>';
-    
-    // Isi matriks
-    html += '<tbody>';
-    for (let row = 0; row < numRows; row++) {
-        html += `<tr><th class="px-4 py-3 border border-gray-300 bg-gray-50 font-semibold text-gray-700">Baris ${row + 1}</th>`;
-        for (let col = 0; col < blockSize; col++) {
-            const cellClass = matrix[col][row] === '_' ? 'bg-gray-100 text-gray-400' : 'bg-white text-gray-800';
-            html += `<td class="px-4 py-3 border border-gray-300 text-center font-mono ${cellClass}">${matrix[col][row]}</td>`;
-        }
-        html += '</tr>';
-    }
-    html += '</tbody></table></div>';
-    
-    // Urutan pengisian
-    html += `
-        <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <h4 class="font-semibold text-blue-800 mb-2 flex items-center">
-                <i class="fas fa-sort-amount-down mr-2"></i>
-                Urutan Pengisian Vertikal
-            </h4>
-            <p class="text-blue-700 font-mono text-sm">`;
-    
-    let order = [];
-    for (let col = 0; col < blockSize; col++) {
-        for (let row = 0; row < numRows; row++) {
-            if (matrix[col] && matrix[col][row]) {
-                order.push(matrix[col][row]);
-            }
-        }
-    }
-    html += order.join(' → ') + '</p></div>';
-
-    document.getElementById("matrix-container").innerHTML = html;
-}
-
-function processText() {
-    const plaintext = document.getElementById("plaintext").value;
-    
-    const processedText = plaintext.toLowerCase().replace(/\s/g, '_');
-    document.getElementById("preprocessing").innerHTML = 
-        `Teks setelah preprocessing: <strong>"${processedText}"</strong><br>Panjang teks: ${processedText.length} karakter`;
-
-    const blockSize = 5;
-    const textLength = processedText.length;
-    const numRows = Math.ceil(textLength / blockSize);
-
-    const matrix = [];
-    let charIndex = 0;
-
-    for (let col = 0; col < blockSize; col++) {
-        matrix[col] = [];
-        for (let row = 0; row < numRows; row++) {
-            if (charIndex < textLength) {
-                matrix[col][row] = processedText[charIndex];
-                charIndex++;
-            } else {
-                matrix[col][row] = '_';
-            }
-        }
-    }
-
-    visualizeMatrix(matrix, numRows, blockSize);
-
-    let readingSteps = '';
-    let encrypted = '';
-
-    for (let row = 0; row < numRows; row++) {
-        readingSteps += `Baris ${row + 1}: `;
-        let rowChars = '';
-
-        for (let col = 0; col < 4; col++) {
-            if (matrix[col] && matrix[col][row]) {
-                rowChars += matrix[col][row] + ' ';
-                encrypted += matrix[col][row];
-            }
-        }
-        readingSteps += rowChars.trim() + '<br>';
-
-        if (row < numRows - 1) {
-            encrypted += '_';
-        }
-    }
-
-    document.getElementById("reading-steps").innerHTML = readingSteps;
-
-    document.getElementById("output").textContent = encrypted.toUpperCase();
-}
-
-function resetForm() {
-    document.getElementById("plaintext").value = '';
-    document.getElementById("preprocessing").innerHTML = '';
-    document.getElementById("matrix-container").innerHTML = '';
-    document.getElementById("reading-steps").innerHTML = '';
-    document.getElementById("output").textContent = '';
-}
-
-if (window.location.pathname.includes('blocking.html')) {
-    window.onload = processText;
-}
