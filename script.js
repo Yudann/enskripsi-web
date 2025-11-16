@@ -66,41 +66,52 @@ function pemampatan(text) {
 function blocking(text) {
     const processedText = text.toLowerCase().replace(/\s/g, '_');
     
-    const blockSize = 5;
+    const blockSize = 5; // kolom
     const textLength = processedText.length;
-    const numRows = Math.ceil(textLength / blockSize);
-
-    const matrix = [];
+    const numRows = Math.ceil(textLength / blockSize); // baris
+    
+    // Padding dengan underscore
+    const totalChars = numRows * blockSize;
+    const paddedText = processedText.padEnd(totalChars, '_');
+    
+    // Buat matrix dan isi per KOLOM (atas ke bawah)
+    const matrix = Array.from({length: numRows}, () => []);
+    
     let charIndex = 0;
-
     for (let col = 0; col < blockSize; col++) {
-        matrix[col] = [];
         for (let row = 0; row < numRows; row++) {
-            if (charIndex < textLength) {
-                matrix[col][row] = processedText[charIndex];
-                charIndex++;
-            } else {
-                matrix[col][row] = '_';
-            }
+            matrix[row][col] = paddedText[charIndex];
+            charIndex++;
         }
     }
-
+    
+    // Baca per BARIS dan gabung dengan underscore
     let encrypted = '';
-
     for (let row = 0; row < numRows; row++) {
-        for (let col = 0; col < 4; col++) {
-            if (matrix[col] && matrix[col][row]) {
-                encrypted += matrix[col][row];
-            }
+        // Ambil karakter non-underscore atau sampai ada karakter terakhir
+        let rowStr = '';
+        for (let col = 0; col < blockSize; col++) {
+            rowStr += matrix[row][col];
         }
-
+        
+        // Hapus trailing underscore di setiap baris kecuali baris terakhir
+        if (row < numRows - 1) {
+            rowStr = rowStr.replace(/_+$/, '');
+        }
+        
+        encrypted += rowStr;
+        
         if (row < numRows - 1) {
             encrypted += '_';
         }
     }
-
+    
     return encrypted.toUpperCase();
 }
+
+// Test
+console.log(blocking("Barto orang")); 
+console.log(blocking("adin cantik"));
 
 function substitusi(text) {
     return text.split('').map(char => {
